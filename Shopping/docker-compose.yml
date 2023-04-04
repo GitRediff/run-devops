@@ -13,6 +13,12 @@ services:
       context: .
       dockerfile: Shopping.API/Dockerfile
 
+  shopping.client:
+    image: ${DOCKER_REGISTRY-}shoppingclient
+    build:
+      context: .
+      dockerfile: Shopping.Client/Dockerfile
+
 volumes:
   mongo_data:
 
