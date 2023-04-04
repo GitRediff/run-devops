@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+  shoppingdb:
+    container_name: shoppingdb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  #catalog12express:
+  #  container_name: catalog12express
+  #  environment:
+  #    - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+  #    - ME_CONFIG_MONGODB_ADMINPASSWORD=password
+  #    - ME_CONFIG_MONGODB_SERVER=shoppingdb
+  #  restart: always
+  #  ports:
+  #    - "8081:8081"
+  #  volumes:
+  #    - mongo_data:/data/db
+
+  shopping.api:
+    container_name: shopping.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=mongodb://admin:password@shoppingdb:27017"
+    depends_on:
+      - shoppingdb
+    ports:
+      - "8000:80"
